@@ -1,17 +1,15 @@
 import logging
 import torch
 from aihwkit.optim import AnalogSGD
-
 from .TrainerEvaluator import TrainerEvaluator
 from hmap.datasets import ImageNet
-from hmap.models.ViT import ViT
+from hmap.models.ResNet50 import ResNet50
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-class ViTImageNet(TrainerEvaluator):
+class ResNet50ImageNet(TrainerEvaluator):
     def instantiate_model(self):
-        # Pretrained on ImageNet-1k
-        model = ViT()
+        model = ResNet50()
         return model.to(device)
 
     def instantiate_dataset(self):
@@ -21,16 +19,8 @@ class ViTImageNet(TrainerEvaluator):
         digital_parameters, analog_parameters = self.digital_analog_parameters(self.model)
         return AnalogSGD(
             [
-                {
-                    "params": analog_parameters,
-                    "lr": analog_lr,
-                    "momentum": analog_momentum,
-                },
-                {
-                    "params": digital_parameters,
-                    "lr": digital_lr,
-                    "momentum": digital_momentum,
-                },
+                {"params": analog_parameters, "lr": analog_lr, "momentum": analog_momentum},
+                {"params": digital_parameters, "lr": digital_lr, "momentum": digital_momentum},
             ],
         )
 
@@ -67,14 +57,12 @@ class ViTImageNet(TrainerEvaluator):
 
                 current_step += 1
                 if current_step >= num_steps:
-                    # Keep the same return pattern as your MobileBERT trainer
                     return max(loss.item(), 1e-12) / max(current_step, 1)
 
     def evaluate(self, batch_size: int, num_workers: int):
         assert self.model is not None
         self.model = self.model.eval().to(device)
 
-        # Use the official ImageNet val split
         val_loader = self.dataset.load_test_data(batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
         top1_correct = 0
@@ -89,17 +77,13 @@ class ViTImageNet(TrainerEvaluator):
                 outputs = self.model(images)  # logits [N, 1000]
                 total += targets.size(0)
 
-                # Top-1
                 _, pred1 = outputs.max(1)
                 top1_correct += pred1.eq(targets).sum().item()
 
-                # Top-5
                 _, pred5 = outputs.topk(5, dim=1, largest=True, sorted=True)
                 top5_correct += pred5.eq(targets.view(-1, 1)).any(dim=1).sum().item()
 
         top1_acc = 100.0 * top1_correct / max(total, 1)
         top5_acc = 100.0 * top5_correct / max(total, 1)
         logging.info("ImageNet Val - Top1: %2.2f%%, Top5: %2.2f%%" % (top1_acc, top5_acc))
-
-        # Return Top-1 to mirror a single-number score API
         return top1_acc

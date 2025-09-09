@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torchvision.models import vit_b_16, ViT_B_16_Weights
+from torchvision.models import resnet50, ResNet50_Weights
 from aihwkit.inference.utils import drift_analog_weights as aihwkit_drift_analog_weights
 import hmap
 from .common.Linear import Linear
@@ -8,10 +8,10 @@ from .Model import Model
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-class ViT(Model):
-    def __init__(self, weights: ViT_B_16_Weights = ViT_B_16_Weights.IMAGENET1K_V1):
-        super(ViT, self).__init__()
-        self.model = vit_b_16(weights=weights)
+class ResNet50(Model):
+    def __init__(self, weights: ResNet50_Weights = ResNet50_Weights.IMAGENET1K_V2):
+        super(ResNet50, self).__init__()
+        self.model = resnet50(weights=weights)
 
     def forward(self, x):
         return self.model(x)
@@ -41,6 +41,7 @@ class ViT(Model):
                     new_module.layer.weight = weight
                     new_module.layer.bias = bias
 
+                # Replace module in-place
                 hmap.methods.rsetattr(self.model, name, new_module)
                 self.replacement_layers.append(name)
 
