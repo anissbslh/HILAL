@@ -1,16 +1,14 @@
 import hmap
 import torch
-from hmap.trainer_evaluator.ViTImageNet import ViTImageNet
+from hmap.trainer_evaluator.ResNet50ImageNet import ResNet50ImageNet
 from hmap.methods.LH import LH, LHConfig
-
-
 
 if __name__ == "__main__":
     config = LHConfig(
-        trainer_evaluator=ViTImageNet(),
-        checkpoint_path='vit_imagenet.pt',
-        train_batch_size=64,
-        eval_batch_size=128,
+        trainer_evaluator=ResNet50ImageNet(),
+        checkpoint_path="resnet50_imagenet.pt",
+        train_batch_size=128,
+        eval_batch_size=256,
         digital_lr=1e-3,
         digital_momentum=0.85,
         analog_lr=1e-4,
@@ -21,7 +19,7 @@ if __name__ == "__main__":
         logging_freq=50,
         t_eval=86400.0,
         evaluation_reps=5,
-        patience=5,                
+        patience=5,
         seed=42,
 
         # Hessian descriptor + clustering controls
