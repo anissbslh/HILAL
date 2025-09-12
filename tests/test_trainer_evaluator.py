@@ -1,6 +1,6 @@
 import pytest
-import hmap
-from hmap.trainer_evaluator.ResNet20CIFAR10 import ResNet20CIFAR10
+import HILAL
+from HILAL.trainer_evaluator.ResNet20CIFAR10 import ResNet20CIFAR10
 
 def test_inference():
     te = ResNet20CIFAR10()

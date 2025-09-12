@@ -1,19 +1,19 @@
 import torch
-from hmap.trainer_evaluator.ResNet20CIFAR100 import ResNet20CIFAR100
+from HILAL.trainer_evaluator.ResNet20CIFAR100 import ResNet20CIFAR100
 
-#from hmap.methods.LH import LH, LHConfig
+#from HILAL.methods.HILAL import HILAL, HILALConfig
 
-#from hmap.methods.LH_eli_only import LH, LHConfig
-#from hmap.methods.LH_r_only import LH, LHConfig
+#from HILAL.methods.HILAL_eli_only import HILAL, HILALConfig
+#from HILAL.methods.HILAL_r_only import HILAL, HILALConfig
 
-#from hmap.methods.LH_topeigen_only import LH, LHConfig
-from hmap.methods.LH_topeigen_only_div_params import LH, LHConfig
+#from HILAL.methods.HILAL_topeigen_only import HILAL, HILALConfig
+from HILAL.methods.HILAL_topeigen_only_div_params import HILAL, HILALConfig
 
-#from hmap.methods.LH_trace_only import LH, LHConfig
+#from HILAL.methods.HILAL_trace_only import HILAL, HILALConfig
 
 
 if __name__ == "__main__":
-    config = LHConfig(
+    config = HILALConfig(
         trainer_evaluator=ResNet20CIFAR100(),
         checkpoint_path="resnet20_c100.pt",
         train_batch_size=256,
@@ -38,6 +38,6 @@ if __name__ == "__main__":
         sensitivity_batches=8,
         gamma_weight=0.08,
     )
-    lh = LH(config)
-    lh.set_baseline_score()
-    lh.run()
+    hilal = HILAL(config)
+    hilal.set_baseline_score()
+    hilal.run()

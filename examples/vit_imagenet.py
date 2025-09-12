@@ -1,12 +1,12 @@
-import hmap
+import HILAL
 import torch
-from hmap.trainer_evaluator.ViTImageNet import ViTImageNet
-from hmap.methods.LH import LH, LHConfig
+from HILAL.trainer_evaluator.ViTImageNet import ViTImageNet
+from HILAL.methods.HILAL import HILAL, HILALConfig
 
 
 
 if __name__ == "__main__":
-    config = LHConfig(
+    config = HILALConfig(
         trainer_evaluator=ViTImageNet(),
         checkpoint_path='vit_imagenet.pt',
         train_batch_size=64,
@@ -31,6 +31,6 @@ if __name__ == "__main__":
         sensitivity_batches=5,
         gamma_weight=0.08,
     )
-    lh = LH(config)
-    lh.set_baseline_score()
-    lh.run()
+    hilal = HILAL(config)
+    hilal.set_baseline_score()
+    hilal.run()

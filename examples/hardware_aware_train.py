@@ -1,18 +1,18 @@
-import hmap
+import HILAL
 import torch
 import logging
 import numpy as np
-from hmap.trainer_evaluator.ResNet8CIFAR10 import ResNet8CIFAR10
-from hmap.trainer_evaluator.ResNet8CIFAR100 import ResNet8CIFAR100
+from HILAL.trainer_evaluator.ResNet8CIFAR10 import ResNet8CIFAR10
+from HILAL.trainer_evaluator.ResNet8CIFAR100 import ResNet8CIFAR100
 
-from hmap.trainer_evaluator.ResNet20CIFAR10 import ResNet20CIFAR10
-from hmap.trainer_evaluator.ResNet20CIFAR100 import ResNet20CIFAR100
+from HILAL.trainer_evaluator.ResNet20CIFAR10 import ResNet20CIFAR10
+from HILAL.trainer_evaluator.ResNet20CIFAR100 import ResNet20CIFAR100
 
-from hmap.trainer_evaluator.AlexNetCIFAR10 import AlexNetCIFAR10
-from hmap.trainer_evaluator.AlexNetCIFAR100 import AlexNetCIFAR100
+from HILAL.trainer_evaluator.AlexNetCIFAR10 import AlexNetCIFAR10
+from HILAL.trainer_evaluator.AlexNetCIFAR100 import AlexNetCIFAR100
 
-from hmap.trainer_evaluator.VGG16CIFAR10 import VGG16CIFAR10
-from hmap.trainer_evaluator.VGG16CIFAR100 import VGG16CIFAR100
+from HILAL.trainer_evaluator.VGG16CIFAR10 import VGG16CIFAR10
+from HILAL.trainer_evaluator.VGG16CIFAR100 import VGG16CIFAR100
 
 def all_analog_layer_ids(model) -> list[int]:
     # Assign stable indices without converting any to analog
