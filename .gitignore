@@ -2,7 +2,7 @@
 data/
 # tmp/
 # results/
-*.pt
+# *.pt
 **/.vscode/
 # *.csv
 logs/
@@ -13,4 +13,4 @@ __pycache__/
 *.candidate
 *.out
 *.sh
-*.png
+# *.png
